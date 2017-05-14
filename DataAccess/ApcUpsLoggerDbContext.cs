@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using ApcUpsLogger.DataAccess.Entities;
 
 namespace ApcUpsLogger.DataAccess
 {
@@ -13,19 +14,8 @@ namespace ApcUpsLogger.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.Property(e => e.Name).IsRequired();
-            });
-
         }
 
-        public virtual DbSet<Product> Products { get; set; }
-    }
-
-    public class Product
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public virtual DbSet<LineVoltage> LineVoltages { get; set; }
     }
 }

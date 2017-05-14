@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApcUpsLogger.Engine;
 using ApcUpsLogger.DataAccess;
+using ApcUpsLogger.DataAccess.Entities;
 
 namespace ApcUpsLogger.Controllers
 {
@@ -31,15 +32,21 @@ namespace ApcUpsLogger.Controllers
         [HttpGet("linev")]
         public string GetLineV()
         {
-            var livev = apcDevice.GetParamValue("LINEV");
-            var product = dbContext.Products.Add(new Product()
-            {
-                Name = livev
-            }
+            var livevParamPair = apcDevice.GetParamValue("LINEV");
+            var lineV = livevParamPair
+                .Split(":")
+                .Last()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .First();
+
+            dbContext.LineVoltages.Add(new LineVoltage()
+                {
+                    Value = Double.Parse(lineV)
+                }
             );
             dbContext.SaveChanges();
 
-            return livev;
+            return livevParamPair;
         }
     }
 }
