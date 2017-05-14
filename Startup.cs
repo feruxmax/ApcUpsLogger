@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ApcUpsLogger.DataAccess;
+using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace ApcUpsLogger
 {
@@ -23,6 +26,9 @@ namespace ApcUpsLogger
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"User ID=application;Password=1234;Host=localhost;Port=5432;Database=apcups;Pooling=true;";
+            services.AddDbContext<ApcUpsLoggerDbContext>(options => options.UseNpgsql(connection));
+
             services.AddMvc();
         }
 

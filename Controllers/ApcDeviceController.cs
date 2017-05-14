@@ -11,10 +11,12 @@ namespace ApcUpsLogger.Controllers
     [Route("api/[controller]")]
     public class ApcDeviceController : Controller
     {
+        private readonly ApcUpsLoggerDbContext dbContext;
         private readonly ApcDevice apcDevice;
 
-        public ApcDeviceController()
+        public ApcDeviceController(ApcUpsLoggerDbContext dbContext)
         {
+            this.dbContext = dbContext;
             apcDevice = new ApcDevice();
         }
 
@@ -29,15 +31,12 @@ namespace ApcUpsLogger.Controllers
         [HttpGet("linev")]
         public string GetLineV()
         {
-            using(var dbContext = new ApcUpsLoggerDbContext())
+            var product = dbContext.Products.Add(new Product()
             {
-                var product = dbContext.Products.Add(new Product()
-                    {
-                        Name = "123"
-                    }
-                );
+                Name = "123"
             }
-             
+            );
+
             return apcDevice.GetParamValue("LINEV");
         }
     }
