@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApcUpsLogger.Engine;
+using ApcUpsLogger.DataAccess;
 
 namespace ApcUpsLogger.Controllers
 {
@@ -28,6 +29,15 @@ namespace ApcUpsLogger.Controllers
         [HttpGet("linev")]
         public string GetLineV()
         {
+            using(var dbContext = new ApcUpsLoggerDbContext())
+            {
+                var product = dbContext.Products.Add(new Product()
+                    {
+                        Name = "123"
+                    }
+                );
+            }
+             
             return apcDevice.GetParamValue("LINEV");
         }
     }
