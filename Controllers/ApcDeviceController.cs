@@ -31,13 +31,15 @@ namespace ApcUpsLogger.Controllers
         [HttpGet("linev")]
         public string GetLineV()
         {
+            var livev = apcDevice.GetParamValue("LINEV");
             var product = dbContext.Products.Add(new Product()
             {
-                Name = "123"
+                Name = livev
             }
             );
+            dbContext.SaveChanges();
 
-            return apcDevice.GetParamValue("LINEV");
+            return livev;
         }
     }
 }
