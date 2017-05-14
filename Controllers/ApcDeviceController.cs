@@ -14,10 +14,10 @@ namespace ApcUpsLogger.Controllers
         private readonly ApcUpsLoggerDbContext dbContext;
         private readonly ApcDevice apcDevice;
 
-        public ApcDeviceController(ApcUpsLoggerDbContext dbContext)
+        public ApcDeviceController(ApcUpsLoggerDbContext dbContext, ApcDevice apcDevice)
         {
             this.dbContext = dbContext;
-            apcDevice = new ApcDevice();
+            this.apcDevice = apcDevice;
         }
 
         // GET api/status
