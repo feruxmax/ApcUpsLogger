@@ -33,18 +33,6 @@ namespace ApcUpsLogger.Controllers
         public string GetLineV()
         {
             var livevParamPair = apcDevice.GetParamValue("LINEV");
-            var lineV = livevParamPair
-                .Split(":")
-                .Last()
-                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                .First();
-
-            dbContext.LineVoltages.Add(new LineVoltage()
-                {
-                    Value = Double.Parse(lineV)
-                }
-            );
-            dbContext.SaveChanges();
 
             return livevParamPair;
         }

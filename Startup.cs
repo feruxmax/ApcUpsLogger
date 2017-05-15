@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using ApcUpsLogger.Utils;
 using ApcUpsLogger.DataAccess;
 using ApcUpsLogger.Engine;
 
@@ -22,7 +23,10 @@ namespace ApcUpsLogger
         {
             var connection = @"User ID=application;Password=1234;Host=localhost;Port=5432;Database=apcups;Pooling=true;";
             services.AddDbContext<ApcUpsLoggerDbContext>(options => options.UseNpgsql(connection));
-            services.AddTransient<ApcDevice, ApcDevice>();
+            services.AddScoped<ApcDevice, ApcDevice>();
+            services.AddScoped<ApcDbLogger, ApcDbLogger>();
+            services.AddTransient<ScopedRunner, ScopedRunner>();
+            services.AddSingleton<PeriodicLogger, PeriodicLogger>();
 
             services.AddMvc();
         }
@@ -31,6 +35,7 @@ namespace ApcUpsLogger
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseMvc();
+            app.ApplicationServices.GetService<PeriodicLogger>().Run();
         }
     }
 }
