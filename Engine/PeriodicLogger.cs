@@ -5,7 +5,7 @@ using System.Timers;
 using ApcUpsLogger.Utils;
 
 namespace ApcUpsLogger.Engine
-{
+{ 
     public class PeriodicLogger
     {
         private readonly ScopedRunner scopedRunner;
